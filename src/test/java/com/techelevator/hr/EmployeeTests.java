@@ -1,5 +1,7 @@
 package com.techelevator.hr;
 
+import com.techelevator.crm.Customer;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -35,4 +37,46 @@ public class EmployeeTests {
 
         assertEquals("Salary should remain the same when raise percentage is negative.",100, employee.getSalary(),0.0);
     }
+
+    @Test
+    public void getBalanceDue_returns_25_given_services() {
+        Employee employee = new Employee("Test", "Testerson");
+        Map<String, Double> servicesRendered = new HashMap<>();
+        servicesRendered.put("Grooming", 10.0);
+        servicesRendered.put("Walking", 10.0);
+        servicesRendered.put("Sitting", 10.0);
+        double result = employee.getBalanceDue(servicesRendered);
+        Assert.assertEquals(25.0, result, 0.02);
+    }
+
+    // empty map
+    @Test
+    public void getBalanceDue_returns_0_given_empty_map() {
+        Employee employee = new Employee("Test", "Testerson");
+        Map<String, Double> servicesRendered = new HashMap<>();
+        double result = employee.getBalanceDue(servicesRendered);
+        Assert.assertEquals(0.0, result, 0.02);
+    }
+
+    // null map
+    @Test
+    public void getBalanceDue_returns_0_given_null_map() {
+        Employee employee = new Employee("Test", "Testerson");
+        Map<String, Double> servicesRendered = null;
+        double result = employee.getBalanceDue(servicesRendered);
+        Assert.assertEquals(0.0, result, 0.02);
+    }
+
+    // null map
+    @Test
+    public void getBalanceDue_returns_0_given_null_entry() {
+        Employee employee = new Employee("Test", "Testerson");
+        Map<String, Double> servicesRendered = new HashMap<>();
+        servicesRendered.put("Grooming", 10.0);
+        servicesRendered.put(null, 10.0);
+        servicesRendered.put("Sitting", 10.0);
+        double result = employee.getBalanceDue(servicesRendered);
+        Assert.assertEquals(20.0, result, 0.02);
+    }
+
 }
